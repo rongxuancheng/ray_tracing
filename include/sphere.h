@@ -3,12 +3,11 @@
 
 #include "hittable.h"
 #include "vec3.h"
-#include<memory.h>
 
 class sphere : public hittable{
     public:
-        sphere(const point3& center, double radius, shared_ptr<material> mat) : center(center), radius(std::fmax(0, radius)),mat(mat){
-            // TODO : init mat
+        sphere(const point3& center, double radius, shared_ptr<material> mat) 
+        : center(center), radius(std::fmax(0, radius)), mat(mat){
         }
 
         bool hit(const ray& r, interval ray_t, hit_record& rec) const override{
@@ -23,9 +22,9 @@ class sphere : public hittable{
             auto sqrtd = std::sqrt(d);
             
             auto root = (h - sqrtd) / a;
-            if( !ray_t.surround(root)){
+            if( !ray_t.surrounds(root)){
                 root = (h + sqrtd) / a;
-                if( !ray_t.surround(root)){
+                if( !ray_t.surrounds(root)){
                     return false;
                 }
             }
@@ -41,7 +40,7 @@ class sphere : public hittable{
     private:
         point3 center;
         double radius;
-        std::shared_ptr<material> mat;
+        shared_ptr<material> mat;
 };
 
 #endif
